@@ -16,10 +16,6 @@
 
 FROM continuumio/miniconda3:4.9.2 as dependencies
 
-RUN conda install -c conda-forge openmc
-
 # installs python packages and nuclear data
 RUN pip install openmc_data_downloader && \
     openmc_data_downloader -d nuclear_data -e all -i H3 -l ENDFB-7.1-NNDC TENDL-2019 -p neutron photon
-
-RUN conda remove -y openmc
