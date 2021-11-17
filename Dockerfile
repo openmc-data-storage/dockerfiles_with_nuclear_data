@@ -16,7 +16,7 @@
 
 FROM continuumio/miniconda3:4.9.2 as dependencies
 
-RUN pip install numpy=1.20.4
+RUN pip install numpy==1.21.4
 # installs python packages and nuclear data
 RUN pip install openmc_data_downloader && \
     openmc_data_downloader -d nuclear_data -e all -i H3 -l ENDFB-7.1-NNDC TENDL-2019 -p neutron photon
