@@ -16,7 +16,18 @@
 
 FROM continuumio/miniconda3:4.9.2 as dependencies
 
-RUN pip install numpy==1.21.4
+# openmc is temporarily installed so that the cross sections xml file is
+# made by openmc_data_downloader and so that generate_endf71_chain can be run
+RUN conda install -c conda-forge openmc
+
 # installs python packages and nuclear data
 RUN pip install openmc_data_downloader && \
     openmc_data_downloader -d nuclear_data -e all -i H3 -l ENDFB-7.1-NNDC TENDL-2019 -p neutron photon
+
+RUN git clone https://github.com/openmc-dev/data.git
+RUN python data/depletion/generate_endf71_chain.py && \
+    rm ENDF-B-VII.1-nfy.zip  && \
+    rm ENDF-B-VII.1-decay.zip && \
+    rm ENDF-B-VII.1-neutrons.zip
+
+RUN conda uninstall openmc
