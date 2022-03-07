@@ -31,3 +31,5 @@ RUN python data/depletion/generate_endf71_chain.py && \
     rm ENDF-B-VII.1-neutrons.zip
 
 RUN conda uninstall openmc
+
+ENV OPENMC_CROSS_SECTIONS=/nuclear_data/cross_sections.xml
